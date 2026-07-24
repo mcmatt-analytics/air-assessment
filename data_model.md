@@ -116,11 +116,7 @@ where d.date_day between w.created_date and current_date
 
 ### users and users_daily
 
-The same current + daily pattern at user grain, for WAU/MAU, seat engagement, and multiplayer analysis.
-
-### workspace_members
-
-Membership/seat table mapping users to workspaces — named to match the raw feed it's built on (the workspace-membership CDC records above) rather than the more ambiguous "workspace_users," which reads like it could mean either direction of the relationship. This is the join seat-engagement and multiplayer-rate metrics need, which events alone don't give cleanly.
+The same current + daily pattern at user grain, for WAU/MAU, seat engagement, and user level metrics.
 
 **Data quality:** one row per grain (workspace, and workspace × day); `is_engaged_today` implies `is_active_today` on every daily row; daily active counts reconcile to the raw event stream on a sample of days.
 
