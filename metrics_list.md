@@ -50,7 +50,6 @@ A tiered list of KPIs and supporting metrics for evaluating product success, gro
 | Onboarding Completion Rate | Workspaces completing onboarding ÷ New workspaces | Onboarding funnel. |
 | Assets per Workspace | Total assets added ÷ Active Workspaces | Depth of the core value loop. |
 | Seat Engagement Rate | Invited users generating ≥ 1 event ÷ Invited users | Collaboration depth — how many invited seats actually engage. |
-| Multiplayer Workspace Rate | Workspaces with ≥ 2 active users ÷ Active Workspaces | Solo vs. team. |
 
 ## 3. Subscriptions
 
