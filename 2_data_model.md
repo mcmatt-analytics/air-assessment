@@ -8,7 +8,7 @@ Raw event streams are first transformed into intermediate tables — deduped, ty
 
 ## Raw sources
 
-Everything below is built from a handful of raw feeds landed by ingestion (CDC / Fivetran-style), untouched before staging: a web clickstream (GA4/Segment) at one row per hit — pageviews, visits, signup clicks, auth events; an in-product event stream at one row per action — asset added, organized, commented, variant created, shared; CDC copies of the app database's workspace, user, and workspace-membership (seat) records, one row per entity; a subscription lifecycle feed from the billing system (e.g. Stripe), one row per billing change, carrying plan tier and MRR changes; and CRM pipeline data (e.g. Salesforce) — one row per deal, plus one row per stage change. Staging cleans and dedupes each of these one-to-one; the marts never read raw directly.
+Everything below is built from a handful of raw feeds landed by ingestion (CDC / Fivetran-style), untouched before staging: a web clickstream (GA4/Segment) at one row per hit — pageviews, visits, signup clicks, auth events; an in-product event stream at one row per action — asset added, organized, commented, variant created, shared; CDC copies of the app database's workspace and user records, one row per entity; a subscription lifecycle feed from the billing system (e.g. Stripe), one row per billing change, carrying plan tier and MRR changes; and CRM pipeline data (e.g. Salesforce) — one row per deal, plus one row per stage change. Staging cleans and dedupes each of these one-to-one; the marts never read raw directly.
 
 **Plan tier has exactly one source: the subscription lifecycle feed.** The workspace record doesn't carry its own copy of it. Plan changes are billing events, so the subscription lifecycle is the system of record; every mart below that shows a workspace's plan tier — current or daily — reads it from that lineage, never from the workspace record, so the two can't disagree.
 
@@ -25,7 +25,7 @@ So there is deliberately no `nrr` table. There is `subscriptions_daily` (and the
 ## dbt conventions
 
 - **Layering.** staging (one model per raw source: rename, recast, clean — never joined) → intermediate (reusable joins and rollups) → marts (the tables below). Rebuilds flow one direction only.
-- **Naming.** Staging as source__entity (e.g. `billing__subscription_events`); intermediate as entity__verb. Marts named for entity and grain — plural entity for current state, entity_daily for date-grain state, entity_events for event streams (entity_history where the stream is a specific state-transition log, like opportunity stages, rather than raw activity).
+- **Naming.** Staging as `stg_<entity>` (e.g. `stg_subscription_events`); intermediate as entity__verb. Marts named for entity and grain — plural entity for current state, entity_daily for date-grain state, entity_events for event streams (entity_history where the stream is a specific state-transition log, like opportunity stages, rather than raw activity).
 - **Deduplication happens once, in staging.** Event streams carry replays and late arrivals; each staging model dedupes to one row per natural key so nothing downstream re-solves it.
 - **Cost awareness.** Partition/cluster on the date column. Full rebuilds are the default; the daily models can build incrementally where a nightly rebuild would be too costly.
 - **Testing.** Uniqueness and not-null on keys, relationships on foreign keys, and source freshness, plus the stage-specific checks noted below.
@@ -83,11 +83,11 @@ A current-state table and a daily table per entity.
 
 ### workspaces
 
-One row per workspace, current state: creation timestamp, activation timestamp, `onboarding_completed_at`, `is_active` and `is_engaged` flags, `assets_to_date` (lifetime asset count), `seat_count`, `plan_tier`.
+One row per workspace, current state: creation timestamp, activation timestamp, `onboarding_completed_at`, `is_active` and `is_engaged` flags, `assets_to_date` (lifetime asset count), `plan_tier`.
 
 ### workspaces_daily
 
-One row per workspace × day, off the historical event stream and date spine: `is_active_today` and `is_engaged_today` flags, `assets_to_date` (cumulative — the same fill-down as `plan_tier`, so a day's value is a running count, not that day's increment), `active_seats`, and a creation-week cohort key. Powers WAW/MAW, engagement and activation rates over time, retention cohorts, and stickiness.
+One row per workspace × day, off the historical event stream and date spine: `is_active_today` and `is_engaged_today` flags, `assets_to_date` (cumulative — the same fill-down as `plan_tier`, so a day's value is a running count, not that day's increment), and a creation-week cohort key. Powers WAW/MAW, engagement and activation rates over time, retention cohorts, and stickiness.
 
 The daily tables record end-of-day state — the value as of one microsecond before midnight. Multiple changes can happen within a day; only the last one that day survives into the row.
 
@@ -108,7 +108,7 @@ select
     ) as plan_tier
 from date_spine d
 cross join {{ ref('workspaces') }} w
-left join {{ ref('billing__subscription_events') }} e
+left join {{ ref('stg_subscription_events') }} e
        on e.workspace_id = w.workspace_id
       and e.event_date   = d.date_day
 where d.date_day between w.created_date and current_date
@@ -116,7 +116,7 @@ where d.date_day between w.created_date and current_date
 
 ### users and users_daily
 
-The same current + daily pattern at user grain, for WAU/MAU, seat engagement, and user level metrics.
+The same current + daily pattern at user grain, for WAU/MAU and user level metrics.
 
 **Data quality:** one row per grain (workspace, and workspace × day); `is_engaged_today` implies `is_active_today` on every daily row; daily active counts reconcile to the raw event stream on a sample of days.
 

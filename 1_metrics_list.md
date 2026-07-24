@@ -49,7 +49,6 @@ A tiered list of KPIs and supporting metrics for evaluating product success, gro
 | Median Time to Activate | Median time from creation to activation | Speed to value. |
 | Onboarding Completion Rate | Workspaces completing onboarding ÷ New workspaces | Onboarding funnel. |
 | Assets per Workspace | Total assets added ÷ Active Workspaces | Depth of the core value loop. |
-| Seat Engagement Rate | Invited users generating ≥ 1 event ÷ Invited users | Collaboration depth — how many invited seats actually engage. |
 
 ## 3. Subscriptions
 
@@ -57,7 +56,7 @@ A tiered list of KPIs and supporting metrics for evaluating product success, gro
 
 | Metric | Formula | Definition |
 |---|---|---|
-| Total Active Subscriptions | Distinct workspaces in a paid state | Workspaces currently paying (= North Star). |
+| Total Active Subscriptions | Distinct workspaces in a paid state | Workspaces currently paying. |
 | Total ARR | Sum of current ARR across active subscriptions | Annualized recurring revenue. |
 | Net Revenue Retention (NRR) | (Start ARR + expansion − contraction − churn) ÷ Start ARR | Revenue retained plus expansion, on a subscriber cohort. |
 | Subscription Churn Rate | Subscriptions cancelled in period ÷ Active subscriptions at period start | Rate of paying workspaces lost (logo churn). |

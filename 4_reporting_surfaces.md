@@ -17,7 +17,7 @@ This matters for one reason: the semantic layer is where NRR, engagement rate, w
 | Area | Explore built on | Primary users | What it's for |
 |---|---|---|---|
 | Acquisition | `web_visitors` | Marketing, growth | Traffic, signup conversion, channel performance — top-of-funnel volume and quality. |
-| Activation & Engagement | `workspaces`, `workspaces_daily`, `users`, `users_daily`, `workspace_members` | Product, growth, CS | Activation funnel, engagement/retention cohorts, feature adoption — the core product health surface. |
+| Activation & Engagement | `workspaces`, `workspaces_daily`, `users`, `users_daily` | Product, growth, CS | Activation funnel, engagement/retention cohorts, feature adoption — the core product health surface. |
 | Subscriptions | `subscriptions`, `subscriptions_daily`, `subscriptions__mrr_movement` | RevOps, Finance, CS (renewals) | ARR, NRR/GRR, churn, ARPA — the revenue surface. |
 | Sales Pipeline | `sales_opportunities`, `sales_opportunity_history`, `sales_opportunities_daily` | Sales, Sales Ops | Win rate, open pipeline, sales-cycle time, funnel velocity. |
 
