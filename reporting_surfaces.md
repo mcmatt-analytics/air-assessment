@@ -14,12 +14,12 @@ This matters for one reason: the semantic layer is where NRR, engagement rate, w
 
 ## Reporting surfaces by stage
 
-| Area | Explore built on | Primary users | What it's for | Watch-outs |
-|---|---|---|---|---|
-| Acquisition | `sessions`, `web_visitors` | Marketing, growth | Traffic, signup conversion, channel performance — top-of-funnel volume and quality. | Session-grain vs. visitor-grain (lifetime) numbers don't sum cleanly against each other — the explore should make clear which grain a given field is on. |
-| Activation & Engagement | `workspaces`, `workspaces_daily`, `users`, `users_daily`, `workspace_members` | Product, growth, CS | Activation funnel, engagement/retention cohorts, feature adoption — the core product health surface. | Highest-traffic explore, most likely to sprawl into ungoverned custom fields; cohort logic (activation threshold) should stay defined once, not redefined per dashboard. |
-| Subscriptions | `subscriptions`, `subscriptions_daily`, `subscriptions__mrr_movement` | RevOps, Finance, CS (renewals) | ARR, NRR/GRR, churn, ARPA — the revenue surface. | NRR/GRR are semantic-layer metrics, not stored columns — self-service users pulling raw MRR movement and recomputing NRR by hand is the failure mode to prevent. |
-| Sales Pipeline | `sales_opportunities`, `sales_opportunity_history`, `sales_opportunities_daily` | Sales, Sales Ops | Win rate, open pipeline, sales-cycle time, funnel velocity. | Pipeline snapshots vs. history — "open pipeline today" and "open pipeline as of last quarter" pull from different grains; explore should default to the daily/point-in-time table to avoid silent as-of errors. |
+| Area | Explore built on | Primary users | What it's for |
+|---|---|---|---|
+| Acquisition | `web_visitors` | Marketing, growth | Traffic, signup conversion, channel performance — top-of-funnel volume and quality. |
+| Activation & Engagement | `workspaces`, `workspaces_daily`, `users`, `users_daily`, `workspace_members` | Product, growth, CS | Activation funnel, engagement/retention cohorts, feature adoption — the core product health surface. |
+| Subscriptions | `subscriptions`, `subscriptions_daily`, `subscriptions__mrr_movement` | RevOps, Finance, CS (renewals) | ARR, NRR/GRR, churn, ARPA — the revenue surface. |
+| Sales Pipeline | `sales_opportunities`, `sales_opportunity_history`, `sales_opportunities_daily` | Sales, Sales Ops | Win rate, open pipeline, sales-cycle time, funnel velocity. |
 
 Each area's explore is self-service within its own domain — filters, slices, and one-click visuals — but doesn't cross into another area's tables. A Sales user exploring pipeline shouldn't be able to casually join into subscription MRR and produce a number nobody on RevOps recognizes.
 

@@ -284,7 +284,7 @@ left join pipeline    p using (date_day)
 
 Rolling metrics (WAW/MAW, WAU/MAU, stickiness, trailing win rate) are added as window functions over `date_day` on top of these point-in-time columns.
 
-**Data quality:** one row per day (unique and not-null on `date_day`, no gaps against the date spine); each column reconciles to its source mart on a sample of days; rates bounded in [0, 1].
+**Data quality:** one row per day (unique and not-null on `date_day`, no gaps against the date spine); each column reconciles to its source mart on a sample of days.
 
 ---
 
