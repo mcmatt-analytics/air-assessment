@@ -1,6 +1,6 @@
 # Air — System Diagram
 
-One picture of the model in [data_model.md](data_model.md). Read it **top to bottom as lineage, left to right as stage**:
+One picture of the model in [2_data_model.md](2_data_model.md). Read it **top to bottom as lineage, left to right as stage**:
 
 - **Bands** (top → bottom) are the dbt layers — **staging** (one `stg_` model per source) → **intermediate** (only where a stage needs one) → **mart** → **semantic layer** → **BI**.
 - **Within each band**, the columns are the four business stages — Acquisition, Activation & Engagement, Subscriptions, Sales Pipeline — each carried straight down its own column.

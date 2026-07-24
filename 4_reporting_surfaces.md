@@ -6,9 +6,9 @@ Where employees consume and analyze this data, and what each surface is (and isn
 
 ## The surface: a BI tool on top of the semantic layer
 
-Employees don't query the marts directly. A BI tool (Looker or Omni) sits on top of the semantic layer defined in `data_model.md` and is the single point of consumption for everyone — analysts included. Each business area gets a dedicated explore, built on the metrics and dimensions that layer exposes, plus a small set of curated one-click dashboards for people who just need the number, not the exploration.
+Employees don't query the marts directly. A BI tool (Looker or Omni) sits on top of the semantic layer defined in `2_data_model.md` and is the single point of consumption for everyone — analysts included. Each business area gets a dedicated explore, built on the metrics and dimensions that layer exposes, plus a small set of curated one-click dashboards for people who just need the number, not the exploration.
 
-This matters for one reason: the semantic layer is where NRR, engagement rate, win rate, etc. are defined *once*. If an area's explore is built on the semantic layer's metrics rather than hand-rolled SQL or spreadsheet logic, two dashboards can never quietly disagree about what "engaged workspace" means. That consistency is the whole point of the model in `data_model.md` — the BI layer either preserves it or defeats it, depending on whether people build on top of the semantic layer or route around it.
+This matters for one reason: the semantic layer is where NRR, engagement rate, win rate, etc. are defined *once*. If an area's explore is built on the semantic layer's metrics rather than hand-rolled SQL or spreadsheet logic, two dashboards can never quietly disagree about what "engaged workspace" means. That consistency is the whole point of the model in `2_data_model.md` — the BI layer either preserves it or defeats it, depending on whether people build on top of the semantic layer or route around it.
 
 ---
 
